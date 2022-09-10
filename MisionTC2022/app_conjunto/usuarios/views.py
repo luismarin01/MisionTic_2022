@@ -28,8 +28,14 @@ def newTipo_Usuario (request):
 def getTipo_Usuario(request):
     if request.method == 'GET':
         users = Tipo_Usuario.objects.all()
-        print(users)
-        return HttpResponse("Esta es la información del Tipo de Usuarios")
+        allUserData = []
+        for x in users:
+            data = {"Tipo_usuario" : x.tipo_usuario, "Codigo_Usuario" : x.codigo_usuario}
+            allUserData.append(data)
+        dataJson = json.dumps(allUserData)
+        resp = HttpResponse()
+        resp.content = dataJson
+        return resp
     else:
         return HttpResponseNotAllowed(['GET'], 'METODO NO VALIDO') 
 
